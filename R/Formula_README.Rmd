@@ -1,0 +1,51 @@
+---
+title: "readme.acs.formula"
+author: "Patricia van Hissenhoven"
+date: "January 17, 2018"
+output: pdf_document
+---
+
+## Documentation of equation trials
+# Project Overview
+In this project I attempt to recreate the Hardship Index variables available for the City of Chicago 2008-2012 data. I could not correctly replicate the measures. The values cited under "HARDSHIP.INDEX" refer to a ranking of hardship, but not to the actual values. This has made this task harder.
+
+The literature establishes the following formu
+
+The explanation below is the written formula for the hardship score
+  The same formulation as the original study was used to calculate the Intercity Hardship Index (see Appendix
+  1 in Nathan and Adams 1989):
+  X = ((Y-Ymin)/(Ymax — Ymin))*100
+  where:
+  X = standardized value of component variable (for example, unemployment rate) for each city to be computed.
+  Y = unstandardized value of component variable for each city.
+  Ymin = the minimum value for Y across all cities.
+  Ymax = the maximum value for Y across all cities.
+  
+The (Ymax — Ymin ) part of the formula was reversed to (Ymin — Ymax ) for the calculation of Income Level so that the resulting ratio would be interpreted consistently with the other ratios — a higher value indicating higher hardship.  The formula standardizes each of the component variables so that they are all given equal weight in the composite Intercity Hardship Index. The Index represents the average of the standardized ratios of all six component variables. The Intercity Hardship Index ranges from 0 to 100 with a higher number indicating greater hardship
+
+
+# Trial 1
+ 
+ In the first trial, I used the formula given by the literature. As annotated, I identified the minimum and maximum. Then I calculated the standardized value for each observation based on the formula above. For income I flipped the denominator such that the minimum was subtracted from the maximum. I observed the differences, which seemed very steep. 
+ Several things were brought to my attention. First, there were negative values for the hardship index, which is inconceivable based on the data, the literature and the equation as used by the literature. Second, the dimensions of the scored varied dramatically from the observed values. What was most concerning was that the order of the hardship scores was not correct. Since this score is calculated based on the elements evaluated, having the wrong order in the rank of the hardship scores means that something is substantially wrong. 
+ 
+# Trial 2
+I went out of my way to try to standardize this using z-score standardization. I wanted to check whether the ranking of the hardship scores would hold if it was standardized like this. It wasn't. This trial was the least successful. 
+
+#Trial 3
+I wanted to check whether the process followed in trial 1 was correct, so I did a step by step recollection, making sure that the differences and the calculations could be checked independently. I calculated the hardship index, and it was just like 1. 
+I tried then to start from the outcomes. Since the literature established that all of the values had to be weighed equally, I wanted to check whether that was actually occurring in the data. It seemed odd that the hardship indexes ranged from 1 to 98. The coefficients column showed that there wasn't a coefficient that multiplied the sums of the standardized values. I figured out that the "HARDSHIP.INDEX" column contained the percentile values of the actual scores. It was, however, impossible to infer the actual scores from the percentiles. I could only determine the order. 
+
+# Trial 4
+In further reading on the hardship index, I came upon the finding that the original hardship index was used to compare the hardship in urban areas vs. nearby suburbs. This means that instead of calculating the hardship based on the percentages of the indicators, they did it based on the ratios of city to suburban percentages. So I tried the data with the scores for Chicago (here) and with the national averages as reported by the City's Data Portal (modified but later erased). Neither were successful.  
+By this point I suspected that income was the problem. There should be an inverse relation between income and hardship, and it was reflected in the fact that income was negative. But in doing so, the hardship values were negative too. I couldn't get the hardship scores to be arranged in the same number as the percentiles, so I tried to look for more data.
+
+# Trial 5
+I found updated data in UICs Great Cities Institute website. I created a data file (because their data was in pdf form), and I calculated the hardship index as explained in the literature. 
+I explored how to fix the income in such a way that it would be positive and a large standardized value would reflect greater hardship. I modified the equation in such a way that it matched the scores reported in the data. 
+For income, the values must be inverted in such a way that the standardization is ((Observed- Ymax)/(Ymin-Ymax))*100. Then the standardized values are to be weighed equally. 
+
+When I tried to use the City's Data to see if this matched the indexes as they were ranked by percentile, the results did not match. This means that further exploration needs to be done to apply the equation to the City's data, but, as of now, we have an initial equation to update the hardship index. 
+
+
+
